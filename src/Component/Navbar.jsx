@@ -59,7 +59,7 @@ const Navbar = () => {
     </div>
   </div>
 
-        <div className='flex-1 flex justify-center    '>
+        <div className='flex-1 flex justify-center lg:justify-start lg:ml-10   '>
   <div className="flex  items-center   gap-2 cursor-pointer">
        
         <div className="w-8 h-8 flex items-center justify-center">
@@ -97,7 +97,7 @@ const Navbar = () => {
   </div>
   <div className=" navbar-end flex-1 pl-10 ">
     {
-                user ?(<div className='mr-10'>
+                user ?(<div className='lg:mr-20'>
               <details className="dropdown">
   <summary className='btn w-10 bg-cover bg-no-repeat  rounded-full h-10 m-1' style={{ backgroundImage: `url('${user.photoURL}')` }}></summary>
   <ul className="menu dropdown-content bg-base-100 rounded-box z-1  p-2 shadow-sm">

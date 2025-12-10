@@ -13,7 +13,7 @@ const Login = () => {
      
     } = useForm()
     const signin=(data)=>{
-      console.log(data)
+      
       login(data.Email, data.password).then((res)=>{
         console.log(`sign in succesful`, res)
       }).catch((err)=>{

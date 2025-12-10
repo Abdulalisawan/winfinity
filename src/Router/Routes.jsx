@@ -12,6 +12,8 @@ import User from "../Dashboard/User/User";
 import Loginprotect from "../Auth/Loginprotect";
 import Alluser from "../Dashboard/Admin/Alluser";
 import Contestmanage from "../Dashboard/Admin/Contestmanage";
+import Createcontest from "../Dashboard/Creator/Createcontest";
+import Createdcontest from "../Dashboard/Creator/Createdcontest";
 
 export const router = createBrowserRouter([
   {
@@ -34,7 +36,13 @@ export const router = createBrowserRouter([
   },
   {
     path:'/Dashboard/creator',
-    element:<Creatorprotect><Creator></Creator></Creatorprotect>
+    element:<Creatorprotect><Creator></Creator></Creatorprotect>,
+    children:[
+      {index:true,element:<Createcontest></Createcontest>},
+      {path:`/Dashboard/creator/Addcontest`, element:<Createcontest></Createcontest>},
+      {path:`/Dashboard/creator/Createdcontest`, element:<Createdcontest></Createdcontest>}
+    ]
+  
 
   },
   {
