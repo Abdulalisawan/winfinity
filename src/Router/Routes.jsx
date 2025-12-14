@@ -14,6 +14,8 @@ import Alluser from "../Dashboard/Admin/Alluser";
 import Contestmanage from "../Dashboard/Admin/Contestmanage";
 import Createcontest from "../Dashboard/Creator/Createcontest";
 import Createdcontest from "../Dashboard/Creator/Createdcontest";
+import Allcontest from "../Component/Allcontest";
+import Contestdetail from "../Component/Contestdetail";
 
 export const router = createBrowserRouter([
   {
@@ -22,6 +24,8 @@ export const router = createBrowserRouter([
     children:[
       {path:'/Login', element: <Loginprotect><Login></Login></Loginprotect>},
       {path:'/Register', element:<Loginprotect><Register></Register></Loginprotect>},
+      {path:"/All-contest", element:<Allcontest></Allcontest>},
+      {path:"/contest/detail/:id", element:<Contestdetail><Contestdetail></Contestdetail></Contestdetail>}
       
     ]
   },

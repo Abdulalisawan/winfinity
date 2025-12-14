@@ -6,6 +6,8 @@ import axiospublic from "./Axiospublic"
 const Userole=()=>{
     const{user}=useContext(Authcontext)
 
+
+
     const{data:Dbuser,isLoading}= useQuery({
         queryKey:[`Dbuser`,user?.email],
         enabled:!!user?.email,
@@ -25,5 +27,6 @@ const Userole=()=>{
         iscreator: Dbuser?.role ===`creator`,
         isuser:Dbuser?.role === `user`
     }
+
 }
 export default Userole

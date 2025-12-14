@@ -3,20 +3,22 @@ import { NavLink } from 'react-router';
 import { Authcontext } from '../Auth/Authcontext';
 import Userole from '../Hooks/Userole';
 import { Link } from 'react-router';
+import { useQueryClient } from '@tanstack/react-query';
 
 const Navbar = () => {
   const{user,Logout}=useContext(Authcontext)
+  const queryclinet =useQueryClient()
 
 
   const{ isLoading,isAdmin,iscreator}=Userole()
-  let dashboardpath=`/Dashboard/user`
-  if(!isLoading){
+  let dashboardpath=null
+  if(!isLoading && user){
     if(isAdmin){
        dashboardpath=`/Dashboard/Admin`
 
     }else if(iscreator){
       dashboardpath=`/Dashboard/creator`
-    }
+    }else dashboardpath='/Dashboard/user'
     
     }
 
@@ -28,11 +30,13 @@ const Navbar = () => {
       method:`POST`,
       credentials:`include`
     }).then((res)=>{
+      queryclinet.clear()
+      console.log(`catch cleared`,res)
       console.log(`cookies cleared`,res)
     })
 
-    await Logout().then((res)=>{
-      console.log(`logout successfull`,res)
+    await Logout().then(()=>{
+      console.log(`logout successfull`)
     })
 
 
@@ -51,7 +55,7 @@ const Navbar = () => {
         tabIndex="-1"
         className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
                 <NavLink to={'/'} className={'font-semibold  px-3  rounded-2xl '}>Home</NavLink>
-                <NavLink className={'font-semibold px-3  rounded-2xl '}>All Contest</NavLink>
+                <NavLink to={'/All-contest'} className={'font-semibold px-3  rounded-2xl '}>All Contest</NavLink>
                 <NavLink className={'font-semibold  px-3  rounded-2xl'}>Extra 1
                 </NavLink>
                 <NavLink className={'font-semibold  px-3  rounded-2xl'}>Extra-2</NavLink>
@@ -88,7 +92,7 @@ const Navbar = () => {
 
   <div className="navbar-center flex-1   justify-center  hidden lg:flex    ">
                 <NavLink to={'/'} className={'font-semibold  px-3  rounded-2xl '}>Home</NavLink>
-                <NavLink className={'font-semibold px-3  rounded-2xl '}>All Contest</NavLink>
+                <NavLink to={'/All-contest'} className={'font-semibold px-3  rounded-2xl '}>All Contest</NavLink>
                 <NavLink className={'font-semibold  px-3  rounded-2xl'}>Extra 1
                 </NavLink>
                 <NavLink className={'font-semibold  px-3  rounded-2xl'}>Extra-2</NavLink>
@@ -102,7 +106,9 @@ const Navbar = () => {
   <summary className='btn w-10 bg-cover bg-no-repeat  rounded-full h-10 m-1' style={{ backgroundImage: `url('${user.photoURL}')` }}></summary>
   <ul className="menu dropdown-content bg-base-100 rounded-box z-1  p-2 shadow-sm">
     <li><a>{user.displayName}</a></li>
-     <li><NavLink to={dashboardpath}>Dashboard</NavLink></li> 
+    <li> {dashboardpath && (
+  <NavLink to={dashboardpath}>Dashboard</NavLink>
+)} </li>
     <li onClick={logouto}><a>Logout</a></li>
   </ul>
 </details>

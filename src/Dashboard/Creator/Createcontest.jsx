@@ -47,6 +47,7 @@ const Createcontest = () => {
         const photo= data.image[0]
         
         
+        
         if(photo){
             const formdata= new FormData()
             formdata.append(`image`,photo)
@@ -55,11 +56,12 @@ const Createcontest = () => {
             data.photoo= res.data.data.url;
        
      }
+     console.log(data.photoo)
      mutate(data)
      
     }
     return (
-       <div className="max-w-2xl mx-auto p-6 bg-base-100 rounded-xl shadow">
+       <div className="max-w-2xl mx-auto p-6 bg-white rounded-xl shadow">
       <h2 className="text-2xl font-semibold mb-4">Add New Contest</h2>
 
       <form onSubmit={handleSubmit(onsubmit)} className="space-y-4">
@@ -164,7 +166,8 @@ const Createcontest = () => {
 
         <button
           type="submit"
-          className="btn btn-primary w-full"
+          
+          className="btn  bg-sky-200 w-full"
           disabled={isPending}
           
         >

@@ -125,14 +125,7 @@ swalWithBootstrapButtons.fire({
   }
 });
 
-let userrole= <td className='text-xl font-semibold'>{User.role}</td>
 
-  if(User.role ===`admin`){
-    userrole= <td className='text-xl text-green-700 font-semibold'>{User.role}</td>
-  
-}else if(User.role ===`creator`){
-  userrole=<td className='text-xl text-orange-700 font-semibold'>{User.role}</td>
-}
 
 
 

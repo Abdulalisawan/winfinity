@@ -1,12 +1,16 @@
 import React from 'react';
+import { FaHome } from 'react-icons/fa';
 import { HiMiniUserGroup } from 'react-icons/hi2';
+import { IoArrowBackCircleOutline } from 'react-icons/io5';
 import { MdEvent } from 'react-icons/md';
-import { NavLink, Outlet } from 'react-router';
+import { Link, NavLink, Outlet } from 'react-router';
 
 const Admin = () => {
     return (
         <>
+        
         <div className='bg-gradient-to-l  from-sky-200'>
+          <div className='ml-10 pt-5'><Link to={'/'} className='text-3xl flex '><IoArrowBackCircleOutline /> <span className='text-xl font-semibold'>Back to home</span> </Link></div>
         <div className='pt-10 pb-5'>
             <h1 className='text-4xl font-semibold ml-15 text-center'>Admin Dashboard</h1>
         </div>
