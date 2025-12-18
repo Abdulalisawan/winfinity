@@ -16,6 +16,8 @@ import Createcontest from "../Dashboard/Creator/Createcontest";
 import Createdcontest from "../Dashboard/Creator/Createdcontest";
 import Allcontest from "../Component/Allcontest";
 import Contestdetail from "../Component/Contestdetail";
+import Updatecontest from "../Dashboard/Creator/Updatecontest";
+import Submitted from "../Dashboard/Creator/Submitted";
 
 export const router = createBrowserRouter([
   {
@@ -44,7 +46,9 @@ export const router = createBrowserRouter([
     children:[
       {index:true,element:<Createcontest></Createcontest>},
       {path:`/Dashboard/creator/Addcontest`, element:<Createcontest></Createcontest>},
-      {path:`/Dashboard/creator/Createdcontest`, element:<Createdcontest></Createdcontest>}
+      {path:`/Dashboard/creator/Createdcontest`, element:<Createdcontest></Createdcontest>},
+      {path:`/Dashboard/creator/updatecontest/:id`, element:<Updatecontest></Updatecontest>},
+      {path:`/Dashboard/creator/submission/:id`, element:<Submitted></Submitted>}
     ]
   
 

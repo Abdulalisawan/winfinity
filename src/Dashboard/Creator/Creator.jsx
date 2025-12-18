@@ -1,13 +1,14 @@
 import React from 'react';
 import { FaGamepad } from 'react-icons/fa';
 import { HiMiniUserGroup } from 'react-icons/hi2';
-import { IoCreateOutline } from 'react-icons/io5';
+import { IoArrowBackCircleOutline, IoCreateOutline } from 'react-icons/io5';
 import { MdEvent } from 'react-icons/md';
-import { NavLink, Outlet } from 'react-router';
+import { Link, NavLink, Outlet } from 'react-router';
 
 const Creator = () => {
     return (
          <>
+         <div className='ml-10 pt-5'><Link to={'/'} className='text-3xl flex '><IoArrowBackCircleOutline /> <span className='text-xl font-semibold'>Back to home</span> </Link></div>
           <div className='bg-gradient-to-l  from-sky-200'>
         <div className='pt-10 pb-5'>
             <h1 className='text-4xl font-semibold ml-15 text-center'>Creator  Dashboard</h1>

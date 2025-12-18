@@ -8,6 +8,8 @@ import { RxCross1 } from 'react-icons/rx';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import Swal from 'sweetalert2';
 import Useaxiossecure from '../../Hooks/Useaxiossecure';
+import { IoArrowBackCircleOutline } from 'react-icons/io5';
+import { Link } from 'react-router';
 
 const Contestmanage = () => {
   const queryclient=useQueryClient()
@@ -57,6 +59,7 @@ const Contestmanage = () => {
 
     return (
         <>
+      
         <div className='mb-10 text-center'>
           <h1 className='text-2xl font-semibold'>Contest management</h1>
         </div>

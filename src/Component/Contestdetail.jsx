@@ -1,16 +1,25 @@
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import { FaClock, FaLock, FaTrophy, FaUserFriends } from 'react-icons/fa';
-import { useParams } from 'react-router';
+import {  useParams } from 'react-router';
 import Swal from 'sweetalert2';
 import Useaxiossecure from '../Hooks/Useaxiossecure';
 import { useCountdown } from '../Hooks/Usecountdown';
 import Userole from '../Hooks/Userole';
+import { useForm } from 'react-hook-form';
+
+
 
 const Contestdetail = () => {
-    
-    const{id}=useParams()
+  const{register,handleSubmit}=useForm()
+
+
+
+
+  const queryclient=useQueryClient()
     const{ Dbuser}=Userole()
+    const{id}=useParams()
+
     
     const axiossecure=Useaxiossecure()
     
@@ -18,7 +27,8 @@ const Contestdetail = () => {
     
 
     const{data:contestdetail,isLoading}=useQuery({
-        queryKey:['contestdetail'],
+        queryKey:['contestdetail',id],
+        enabled: !!id,
         queryFn:async()=>{
             const result= await axiossecure.get(`/contest/detail/${id}`)
             return result.data
@@ -26,10 +36,73 @@ const Contestdetail = () => {
         }
 
     })
+    
+      const{data:paymentstatus, isLoading:paymentloading}=useQuery({
+        queryKey:[`paymentstatus`, id, Dbuser?.email],
+        enabled: !! Dbuser && !! id,
+        queryFn:async()=>{
+                 const result= await axiossecure.get(`/payments/status?contestid=${id}`)
+                 return result.data
+        }
+      })
+
+    
+  
+
+
+
+
+
+     
+
+
 
   const detail = contestdetail?.[0];
+
+   const{mutate:sumitorm,}=useMutation({
+        mutationFn:async(datuu)=>{
+          const payload={
+             submissionText: datuu.Submiteddata,
+            contestid:detail._id,
+            name:Dbuser.name
+            
+
+          }
+           
+          const result= await axiossecure.post(`/submittask`,payload)
+          return result.data
+        },
+        onSuccess:()=>{
+          document.getElementById('my_modal_5').close()
+          queryclient.invalidateQueries([`submitedornot`])
+           Swal.fire({
+          title: "submissiondone Done",
+           showCancelButton: true
+        })
+
+        }
+
+
+      })
+
+
+ const{data:submited,isLoading:sumbitload}=useQuery({
+    queryKey:[`submitedornot`,id],
+    enabled: !!id,
+    queryFn:async()=>{
+      
+      const result= await axiossecure.get(`submitedornot?contestid=${id}`)
+      return result.data
+    }
+    
+   })
+
+
+
+
+ 
   const countdown = useCountdown(detail?.deadline);
-      const{mutate}=useMutation({
+      const{mutate:sumittask}=useMutation({
       mutationFn:async()=>{
         const payload={
      
@@ -39,10 +112,16 @@ const Contestdetail = () => {
             
         }
            const result= await axiossecure.post(`/contest-post`,payload)
-           console.log(result.data) 
+           return result.data
 
       },
       onSuccess:()=>{
+
+        queryclient.invalidateQueries([`contestdetail`])
+
+
+
+
         Swal.fire({
           title: "Payment Done",
            showCancelButton: true
@@ -54,8 +133,14 @@ const Contestdetail = () => {
       
   
 })
+
+const handlesubmitform=(datuu)=>{
+  sumitorm(datuu)
+}
+
+
     
-    if(isLoading){
+    if(isLoading || paymentloading || sumbitload ){
         return(<div className="flex justify-center items-center min-h-[70vh] bg-transparent">
       <div className="relative">
         {/* Outer Glow Ring */}
@@ -67,41 +152,19 @@ const Contestdetail = () => {
     </div>)
     }
 
-  
 
 
   
 
 
-    const handlesubmit=()=>{
-        Swal.fire({
-  title: "Submit your task",
-  input: "textarea",
-  inputAttributes: {
-    autocapitalize: "off"
-  },
-  showCancelButton: true,
-  confirmButtonText: "Submit",
-  showLoaderOnConfirm: true,
-  allowOutsideClick: () => !Swal.isLoading()
-}).then((result) => {
-  if (result.isConfirmed) {
-    Swal.fire({
-      title: `submitted`,
-      imageUrl: result.value.avatar_url
-    });
-  }
-});
-    }
 
 
 
 
+     const haspaid = paymentstatus?.hasPaid == true
 
  
-
-
-
+ 
 
 
 
@@ -149,19 +212,45 @@ const Contestdetail = () => {
           </span>
           <span className="flex items-center gap-1">
             <FaClock className="text-blue-400" />
-            {countdown?.expired ? (
-  <span className="text-red-500 font-semibold">
-    Contest Ended
-  </span>
-) : (
-  <div  className="text-blue-500 font-bold text-lg">
+
+
+            {
+              <>
+              {
+                !countdown?.expired && (
+
+                  <div  className="text-blue-500 font-bold text-lg">
     
    {countdown.days}d{" "}
     {countdown.hours}h{" "}
     {countdown.minutes}m{" "}
     {countdown.seconds}s
   </div>
-)}
+
+                )
+              },
+              {
+                countdown?.expired && (
+                  <span className="text-red-500 font-semibold">
+    Contest Ended
+  </span>
+
+                )
+              }
+              
+              
+              
+              
+              </>
+            }
+
+
+
+
+
+
+
+
 
           </span>
         </div>
@@ -189,18 +278,40 @@ const Contestdetail = () => {
 
         {/* CTA Buttons */}
       {
-        countdown?.expired ?(''):(  <div className="flex flex-col gap-3 pt-2">
-          <button onClick={mutate} className="w-full h-12 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-medium shadow">
+
+       ! countdown?.expired &&(
+        <>
+         {!haspaid && (
+
+          <button onClick={() => sumittask()} className="w-full h-12 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-medium shadow">
             Register / Pay
           </button>
 
-          <button
-            onClick={handlesubmit}
+         )}
+
+         {
+          haspaid && !submited.issubmited ? ( <button
+            onClick={()=>document.getElementById('my_modal_5').showModal()}
             className="w-full h-12 rounded-xl border border-blue-400 text-blue-500 hover:bg-blue-50 font-medium"
           >
             Submit Task
-          </button>
-        </div>)
+          </button>):( <button
+            disabled
+            className="w-full h-12 rounded-xl border border-blue-400 text-blue-500 hover:bg-blue-50 font-medium"
+          >
+            Submited
+          </button>)
+         }
+        
+        
+        
+        </>
+       )
+
+         
+
+
+        
       }
 
         {/* Status */}
@@ -231,6 +342,21 @@ const Contestdetail = () => {
   </div>
 </div>
 
+
+<dialog id="my_modal_5" className="modal modal-bottom border-2 sm:modal-middle">
+  <div className="modal-box">
+    
+     <form  method="dialog">
+        <textarea  {...register(`Submiteddata`)} placeholder='Submit the task' className='w-[99%] h-[90px] border-2'></textarea>
+        <div className='flex gap-3 mt-5 justify-center items-center'>
+        <button  className="btn bg-red-400 text-white font-semibold">Close</button>
+        <button onClick={handleSubmit(handlesubmitform)}  className="bg-sky-500 py-2 rounded-[3px] px-2 text-white font-semibold">Submit</button>
+        </div>
+      </form>
+    
+  </div>
+  
+</dialog>
 
     </>
     );

@@ -1,8 +1,13 @@
 import React from 'react';
+import { IoArrowBackCircleOutline } from 'react-icons/io5';
+import { Link } from 'react-router';
 
 const User = () => {
     return (
         <>
+              <div className='ml-10 pt-5'><Link to={'/'} className='text-3xl flex '><IoArrowBackCircleOutline /> <span className='text-xl font-semibold'>Back to home</span> </Link></div>
+
+
          <div className='bg-gradient-to-l  from-sky-200'>
         <div className='pt-10 pb-5'>
             <h1 className='text-4xl font-semibold ml-15 text-center'>User Dashboard</h1>

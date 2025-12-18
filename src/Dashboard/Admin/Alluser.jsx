@@ -2,6 +2,8 @@ import { useQuery } from '@tanstack/react-query';
 import React from 'react';
 import Useaxiossecure from '../../Hooks/Useaxiossecure';
 import Usertable from '../../Component/usertable';
+import { Link } from 'react-router';
+import { IoArrowBackCircleOutline } from 'react-icons/io5';
 
 const Alluser = () => {
 
@@ -32,6 +34,7 @@ const Alluser = () => {
 
     return (
         <>
+   
         <div className='mb-10 text-center'>
           <h1 className='text-2xl font-semibold'>User management</h1>
         </div>

@@ -1,52 +1,73 @@
 import axios from 'axios';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import DatePicker from 'react-datepicker';
 import { useForm } from 'react-hook-form';
 import "react-datepicker/dist/react-datepicker.css";
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import {  useQuery } from '@tanstack/react-query';
 import Useaxiossecure from '../../Hooks/Useaxiossecure';
 import Swal from 'sweetalert2';
-import { Link } from 'react-router';
+import { Link, useNavigate, useParams } from 'react-router';
 import { IoArrowBackCircleOutline } from 'react-icons/io5';
 
-const Createcontest = () => {
+const Updatecontest = () => {
     const [deadline, setdeadline] = useState(null);
      const { register, handleSubmit, setValue, formState: { errors }, reset } = useForm();
      const axiosscure=Useaxiossecure()
-
-     const queryclient=  useQueryClient()
-
-
-     const{mutate,isPending}=useMutation({
-        mutationFn:async(data)=>{
-            const paylaod={
-                ...data,
-                price:Number(data.price),
-                prizeMoney:Number(data.prizeMoney),
-                deadline
-            }
-
-            const res= await axiosscure.post('/creator/contest',paylaod)
-            return res.data
-
-        },
-        onSuccess:()=>{
-             Swal.fire("Success", "Contest created and pending approval", "success");
-      queryclient.invalidateQueries({ queryKey: ["myCreatedContests"] });
-      reset();
-      setdeadline(null);
-        },
-        onError:(err)=>{
-             Swal.fire("Error", err.response?.data?.message || "Something went wrong", "error");
-        }
-
-     })
+     const{id}=useParams()
+     const navigate=useNavigate()
 
      
 
-     const onsubmit=async(data)=>{
+     const{data:contest,isLoading:contestload}=useQuery({
+        queryKey:[`contestupdatedetail`,id],
+        enabled: !! id,
+        queryFn:async()=>{
+            const result= await axiosscure.get(`/contest/detailofupdate/${id}`)
+            return result.data
+        }
+        
+
+     })
+     
+     
+     useEffect(()=>{
+        if(!contest){
+            return
+        }
+        
+                reset({
+                name:contest.name,
+                description:contest.description,
+                taskInstruction:contest.taskInstruction,
+                price:contest.price,
+                prizeMoney:contest.prizeMoney,
+                type:contest.type,
+                
+            
+
+
+            })
+            setdeadline(contest.deadline)
+      
+         
+            
+        
+     },[reset,contest])
+
+
+ 
+   
+
+
+
+
+     
+
+     const onsubmit=async(datacontest)=>{
+
+        let imageurl=contest.photoo
        
-        const photo= data.image[0]
+        const photo= datacontest.image[0]
         
         
         
@@ -55,18 +76,55 @@ const Createcontest = () => {
             formdata.append(`image`,photo)
 
             const res= await axios.post(`https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_imgbb_key}`,formdata);
-            data.photoo= res.data.data.url;
+            imageurl= res.data.data.url;
        
      }
-     console.log(data.photoo)
-     mutate(data)
+     const updateddata={
+
+                name:datacontest.name,
+                description:datacontest.description,
+                taskInstruction:datacontest.taskInstruction,
+                price:datacontest.price,
+                prizeMoney:datacontest.prizeMoney,
+                type:datacontest.type,
+                deadline: new Date(deadline),
+                photoo:imageurl
+
+     }
+     await axiosscure.patch(`/contest/update/${id}`,updateddata)
+   Swal.fire("Updated!", "Contest updated successfully", "success");
+   navigate('/Dashboard/creator/Createdcontest')
      
     }
+
+
+if(contestload ||  !contest){
+        return(
+        <div className="flex justify-center items-center min-h-[70vh] bg-transparent">
+      <div className="relative">
+        {/* Outer Glow Ring */}
+        <div className="w-24 h-24 border-4 border-sky-300/20 rounded-full"></div>
+
+        {/* Spinning Ring */}
+        <span className="loading loading-spinner text-sky-400 absolute top-0 left-0 w-24 h-24"></span>
+      </div>
+    </div>
+        )
+     }
+
+
+
+
+
     return (
+
       <>
-    
+
+      
+
+
        <div className="max-w-2xl mx-auto p-6 bg-white rounded-xl shadow">
-      <h2 className="text-2xl font-semibold mb-4">Add New Contest</h2>
+      <h2 className="text-2xl font-semibold mb-4">Updated Contest</h2>
 
       <form onSubmit={handleSubmit(onsubmit)} className="space-y-4">
         {/* Name */}
@@ -86,7 +144,7 @@ const Createcontest = () => {
           <input
             type="File"
             className="input pt-2 input-bordered w-full"
-            {...register("image", { required: true })}
+            {...register("image")}
           />
         </div>
 
@@ -168,22 +226,22 @@ const Createcontest = () => {
           
         </div>
 
-        <button
+         <button
           type="submit"
-          
           className="btn  bg-sky-200 w-full"
-          disabled={isPending}
+          
+    
           
         >
-            {
-                isPending ? `...creating`:`Create Now`
-            }
+            Update Now
           
         </button>
+
+       
       </form>
     </div>
     </>
     );
 };
 
-export default Createcontest;
+export default Updatecontest;
