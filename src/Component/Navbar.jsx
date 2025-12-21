@@ -3,14 +3,18 @@ import { NavLink } from 'react-router';
 import { Authcontext } from '../Auth/Authcontext';
 import Userole from '../Hooks/Userole';
 import { Link } from 'react-router';
-import { useQueryClient } from '@tanstack/react-query';
+import {  useQueryClient } from '@tanstack/react-query';
+
+
 
 const Navbar = () => {
   const{user,Logout}=useContext(Authcontext)
+
+
   const queryclinet =useQueryClient()
 
 
-  const{ isLoading,isAdmin,iscreator}=Userole()
+  const{Dbuser, isLoading,isAdmin,iscreator}=Userole()
   let dashboardpath=null
   if(!isLoading && user){
     if(isAdmin){
@@ -22,7 +26,7 @@ const Navbar = () => {
     
     }
 
-    
+  
  
 
   const logouto=async()=>{ 
@@ -41,6 +45,9 @@ const Navbar = () => {
 
 
   }
+
+  
+  
 
   
     return (
@@ -101,18 +108,47 @@ const Navbar = () => {
   </div>
   <div className=" navbar-end flex-1 pl-10 ">
     {
-                user ?(<div className='lg:mr-20'>
-              <details className="dropdown">
-  <summary className='btn w-10 bg-cover bg-no-repeat  rounded-full h-10 m-1' style={{ backgroundImage: `url('${user.photoURL}')` }}></summary>
-  <ul className="menu dropdown-content bg-base-100 rounded-box z-1  p-2 shadow-sm">
-    <li><a>{user.displayName}</a></li>
-    <li> {dashboardpath && (
-  <NavLink to={dashboardpath}>Dashboard</NavLink>
-)} </li>
-    <li onClick={logouto}><a>Logout</a></li>
-  </ul>
-</details>
-            </div> ):(<div className='flex gap-3 items-center my-2'>
+                user ?(<div className="lg:mr-20">
+  <details className="dropdown dropdown-end">
+    <summary
+      className="btn w-10 h-10 rounded-full bg-cover bg-no-repeat m-0 sm:m-1"
+      style={{ backgroundImage: `url('${Dbuser === undefined ?(user.photoURL):(Dbuser.photoURL)}')` }}
+    ></summary>
+
+    <ul
+      tabIndex="-1"
+      className="
+        dropdown-content
+        menu
+        bg-base-100
+        rounded-box
+        z-50
+        p-2
+        shadow-sm
+        w-[90vw]
+        sm:w-48
+        max-w-[35vw]
+        right-0
+        overflow-x-hidden
+      "
+    >
+      <li><span>{Dbuser === undefined ?(user.displayName):(Dbuser.name)}</span></li>
+
+      {dashboardpath && (
+        <li>
+          <NavLink to={dashboardpath}>Dashboard</NavLink>
+        </li>
+      )}
+
+      <li>
+        <button onClick={logouto} className="text-left w-full">
+          Logout
+        </button>
+      </li>
+    </ul>
+  </details>
+</div>
+ ):(<div className='flex gap-3 items-center my-2'>
               <NavLink to={'/Login'} className="btn  rounded-xl">Login</NavLink>
               <NavLink to={'/Register'} className="btn rounded-xl ">Register</NavLink>
 

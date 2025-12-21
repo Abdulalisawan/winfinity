@@ -16,7 +16,7 @@ const Usertable = ({User}) => {
     onSuccess:()=>{
           queryClient.invalidateQueries(['Alluser']);
           Swal.fire({
-  title: "User is Now admin",
+  title: `Succesfull`,
 
   icon: "success",
 });

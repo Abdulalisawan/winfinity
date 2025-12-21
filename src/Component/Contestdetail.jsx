@@ -58,13 +58,16 @@ const Contestdetail = () => {
 
 
   const detail = contestdetail?.[0];
+  
 
    const{mutate:sumitorm,}=useMutation({
         mutationFn:async(datuu)=>{
           const payload={
              submissionText: datuu.Submiteddata,
             contestid:detail._id,
-            name:Dbuser.name
+            name:Dbuser.name,
+            contestname:detail.name,
+            prizemoney:detail.prizeMoney
             
 
           }
@@ -98,6 +101,14 @@ const Contestdetail = () => {
    })
 
 
+const{data:winnerphoto}=useQuery({
+  queryKey:[`winnerphoto`],
+  queryFn:async()=>{
+    const result= await axiossecure.get(`/winneruserid/${detail.winnerUserId}`)
+    return result.data
+  }
+
+})
 
 
  
@@ -109,6 +120,9 @@ const Contestdetail = () => {
           contestId:detail._id,
         
             amount:detail.price,
+            namu:detail.name,
+
+            deadline:detail.deadline
             
         }
            const result= await axiossecure.post(`/contest-post`,payload)
@@ -161,8 +175,10 @@ const handlesubmitform=(datuu)=>{
 
 
 
-     const haspaid = paymentstatus?.hasPaid == true
+    const isPaid = paymentstatus?.hasPaid === true;
+const isSubmitted = submited?.issubmited === true;
 
+    
  
  
 
@@ -208,7 +224,7 @@ const handlesubmitform=(datuu)=>{
         <div className="flex flex-wrap gap-4 text-sm text-slate-500">
           <span className="flex items-center gap-1">
             <FaUserFriends className="text-blue-400" />
-            2,450 Participants
+            {detail.participantsCount}
           </span>
           <span className="flex items-center gap-1">
             <FaClock className="text-blue-400" />
@@ -281,27 +297,31 @@ const handlesubmitform=(datuu)=>{
 
        ! countdown?.expired &&(
         <>
-         {!haspaid && (
-
-          <button onClick={() => sumittask()} className="w-full h-12 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-medium shadow">
-            Register / Pay
-          </button>
-
-         )}
+           {!isPaid && (
+      <button
+        onClick={() => sumittask()}
+        className="w-full h-12 rounded-xl bg-blue-500 hover:bg-blue-600 text-white font-medium shadow"
+      >
+        Register / Pay
+      </button>
+    )}
 
          {
-          haspaid && !submited.issubmited ? ( <button
+             isPaid && !submited.issubmited && ( <button
             onClick={()=>document.getElementById('my_modal_5').showModal()}
             className="w-full h-12 rounded-xl border border-blue-400 text-blue-500 hover:bg-blue-50 font-medium"
           >
             Submit Task
-          </button>):( <button
-            disabled
-            className="w-full h-12 rounded-xl border border-blue-400 text-blue-500 hover:bg-blue-50 font-medium"
-          >
-            Submited
           </button>)
          }
+           {isPaid && isSubmitted && (
+      <button
+        disabled
+        className="w-full h-12 rounded-xl border border-blue-400 bg-blue-50 text-blue-500 font-medium cursor-not-allowed"
+      >
+        Submitted
+      </button>
+    )}
         
         
         
@@ -332,10 +352,18 @@ const handlesubmitform=(datuu)=>{
       <h2 className="font-semibold text-slate-800 mb-2">Winner</h2>
 
       <div className="flex items-center gap-4 text-gray-400">
-        <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
+        {detail.winnerUserId == null ?(
+          <>
+          <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
           <FaLock />
         </div>
         <span>Winner will be announced after contest ends</span>
+        </>):(<>
+          <div style={{ backgroundImage: `url('${winnerphoto.photoURL}')` }} className="w-12 h-12 rounded-full bg-no-repeat bg-cover justify-center">
+          
+        </div>
+        <span>{detail.winnerUserId}</span>
+        </>)}
       </div>
     </div>
 
