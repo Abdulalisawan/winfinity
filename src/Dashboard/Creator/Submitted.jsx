@@ -1,7 +1,7 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import React from 'react';
 import { IoArrowBackCircleOutline } from 'react-icons/io5';
-import { Link, useParams } from 'react-router';
+import { Link, useNavigate, useParams } from 'react-router';
 import Useaxiossecure from '../../Hooks/Useaxiossecure';
 import Swal from 'sweetalert2';
 // NEW IMPORTS FOR DESIGN
@@ -12,6 +12,7 @@ import { MdEmojiEvents } from 'react-icons/md';
 const Submitted = () => {
     const { id } = useParams();
     const queryclien = useQueryClient();
+    const navigate=useNavigate()
 
     const axiossecure = Useaxiossecure();
     const { data: submission, isLoading } = useQuery({
@@ -32,6 +33,7 @@ const Submitted = () => {
         }
     });
 
+    
 
     const { mutate } = useMutation({
         mutationFn: async (email) => {
@@ -41,11 +43,12 @@ const Submitted = () => {
         onSuccess: () => {
             Swal.fire("Winner declared");
             queryclien.invalidateQueries([`sumissiondata`]);
+            
         }
     });
 
 
-    if (isLoading || nameloading) {
+    if (isLoading || nameloading || !contestname) {
         return (
             <div className="flex justify-center items-center min-h-[70vh] bg-transparent">
                 <div className="relative">
@@ -175,7 +178,7 @@ const Submitted = () => {
 
                                         {/* Winner Action */}
                                         <td className="p-4 rounded-r-xl text-center">
-                                            {submit.isWinner === false ? (
+                                            {contestname.winnerUserId === null ? (
                                                 <button
                                                     onClick={() => {
                                                         mutate({ email: submit.useremail, contestname: submit.contestname, prizemoney: submit.prizemoney })

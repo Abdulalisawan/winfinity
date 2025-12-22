@@ -23,6 +23,8 @@ import ParticipatedContest from "../Dashboard/User/ParticipatedContest";
 import WinningContest from "../Dashboard/User/WinningContest";
 import Myprofile from "../Dashboard/User/Myprofile";
 import ErrorPage from "../Layout/Errorpage";
+import Leaderboard from "../Component/Leaderboard";
+import HowItWorks from "../Component/Howitworks";
 
 export const router = createBrowserRouter([
   {
@@ -34,7 +36,9 @@ export const router = createBrowserRouter([
       {path:'/Login', element: <Loginprotect><Login></Login></Loginprotect>},
       {path:'/Register', element:<Loginprotect><Register></Register></Loginprotect>},
       {path:"/All-contest", element:<Allcontest></Allcontest>},
-      {path:"/contest/detail/:id", element:<Contestdetail><Contestdetail></Contestdetail></Contestdetail>}
+      {path:"/contest/detail/:id", element:<Contestdetail><Contestdetail></Contestdetail></Contestdetail>},
+      {path:"/Leaderboard",element:<Leaderboard></Leaderboard>},
+      {path:`/howitworks`,element:<HowItWorks></HowItWorks>}
       
     ]
   },

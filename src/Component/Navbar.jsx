@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { NavLink } from 'react-router';
 import { Authcontext } from '../Auth/Authcontext';
 import Userole from '../Hooks/Userole';
@@ -9,6 +9,7 @@ import {  useQueryClient } from '@tanstack/react-query';
 
 const Navbar = () => {
   const{user,Logout}=useContext(Authcontext)
+  const [open, setOpen] = useState(false);
 
 
   const queryclinet =useQueryClient()
@@ -30,7 +31,7 @@ const Navbar = () => {
  
 
   const logouto=async()=>{ 
-    await fetch('http://localhost:3000/logout',{
+    await fetch(`${import.meta.env.VITE_API_URL}/logout`,{
       method:`POST`,
       credentials:`include`
     }).then((res)=>{
@@ -53,22 +54,53 @@ const Navbar = () => {
     return (
       <div className="navbar flex justify-between  shadow-sm">
 
-    <div className="flex-1   lg:hidden">
-    <div className="dropdown">
-      <div tabIndex={0} role="button" className="btn btn-ghost btn-circle">
-        <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"> <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h7" /> </svg>
-      </div>
-      <ul
-        tabIndex="-1"
-        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                <NavLink to={'/'} className={'font-semibold  px-3  rounded-2xl '}>Home</NavLink>
-                <NavLink to={'/All-contest'} className={'font-semibold px-3  rounded-2xl '}>All Contest</NavLink>
-                <NavLink className={'font-semibold  px-3  rounded-2xl'}>Extra 1
-                </NavLink>
-                <NavLink className={'font-semibold  px-3  rounded-2xl'}>Extra-2</NavLink>
-      </ul>
-    </div>
-  </div>
+   <div className=" flex-1 relative lg:hidden">
+  <button
+    onClick={() => setOpen(prev => !prev)}
+    className="btn btn-ghost btn-circle"
+  >
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      className="h-5 w-5"
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth="2"
+        d="M4 6h16M4 12h16M4 18h7"
+      />
+    </svg>
+  </button>
+
+  {open && (
+    <ul
+      className="
+        absolute
+        left-0
+        top-full
+        mt-2
+        w-52
+        bg-base-100
+        rounded-box
+        shadow-lg
+        menu
+        menu-sm
+        z-50
+      "
+    >
+      <li><NavLink to="/" onClick={() => setOpen(false)}>Home</NavLink></li>
+      <li><NavLink to="/All-contest" onClick={() => setOpen(false)}>All Contest</NavLink></li>
+      <li><NavLink to="/Leaderboard" onClick={() => setOpen(false)}>Leaderboard</NavLink></li>
+      <li><NavLink to={`/howitworks`} onClick={() => setOpen(false)}>How it works</NavLink></li>
+    </ul>
+  )}
+</div>
+
+
+  
 
         <div className='flex-1 flex justify-center lg:justify-start lg:ml-10   '>
   <div className="flex  items-center   gap-2 cursor-pointer">
@@ -100,9 +132,9 @@ const Navbar = () => {
   <div className="navbar-center flex-1   justify-center  hidden lg:flex    ">
                 <NavLink to={'/'} className={'font-semibold  px-3  rounded-2xl '}>Home</NavLink>
                 <NavLink to={'/All-contest'} className={'font-semibold px-3  rounded-2xl '}>All Contest</NavLink>
-                <NavLink className={'font-semibold  px-3  rounded-2xl'}>Extra 1
+                <NavLink to={`/Leaderboard`} className={'font-semibold  px-3  rounded-2xl'}>Leaderboard
                 </NavLink>
-                <NavLink className={'font-semibold  px-3  rounded-2xl'}>Extra-2</NavLink>
+                <NavLink to={`/howitworks`} className={'font-semibold  px-3  rounded-2xl'}>How it works</NavLink>
 
   
   </div>

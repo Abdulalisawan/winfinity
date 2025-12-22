@@ -30,7 +30,7 @@ const Authprovider = ({children}) => {
             if(currentuser){
                 setuser(currentuser)
                 const logeduser={email:currentuser.email}
-               fetch(`http://localhost:3000/jwt` , {
+               fetch(`${import.meta.env.VITE_API_URL}/jwt` , {
                 method:`POST`,
                 headers:{
                     'Content-Type': 'application/json'

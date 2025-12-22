@@ -39,7 +39,7 @@ const Contestdetail = () => {
     
       const{data:paymentstatus, isLoading:paymentloading}=useQuery({
         queryKey:[`paymentstatus`, id, Dbuser?.email],
-        enabled: !! Dbuser && !! id,
+        enabled: !! id,
         queryFn:async()=>{
                  const result= await axiossecure.get(`/payments/status?contestid=${id}`)
                  return result.data
@@ -180,7 +180,6 @@ const isSubmitted = submited?.issubmited === true;
 
     
  
- 
 
 
 
@@ -292,7 +291,7 @@ const isSubmitted = submited?.issubmited === true;
           </p>
         </div>
 
-        {/* CTA Buttons */}
+        
       {
 
        ! countdown?.expired &&(
@@ -334,7 +333,7 @@ const isSubmitted = submited?.issubmited === true;
         
       }
 
-        {/* Status */}
+        
        {
         countdown?.expired ?( <div className="text-sm text-gray-400">
           Contest Status: <span className="text-red-500 font-medium">Ended</span>
@@ -347,7 +346,7 @@ const isSubmitted = submited?.issubmited === true;
       </div>
     </div>
 
-    {/* BOTTOM: Winner Section */}
+    
     <div className=" px-6 py-5 bg-gray-50">
       <h2 className="font-semibold text-slate-800 mb-2">Winner</h2>
 
