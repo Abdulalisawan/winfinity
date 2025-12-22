@@ -25,6 +25,8 @@ import Myprofile from "../Dashboard/User/Myprofile";
 import ErrorPage from "../Layout/Errorpage";
 import Leaderboard from "../Component/Leaderboard";
 import HowItWorks from "../Component/Howitworks";
+import PaymentSuccess from "../Component/PaymentSuccess";
+import PaymentCancel from "../Component/PaymentCancel";
 
 export const router = createBrowserRouter([
   {
@@ -38,7 +40,9 @@ export const router = createBrowserRouter([
       {path:"/All-contest", element:<Allcontest></Allcontest>},
       {path:"/contest/detail/:id", element:<Contestdetail><Contestdetail></Contestdetail></Contestdetail>},
       {path:"/Leaderboard",element:<Leaderboard></Leaderboard>},
-      {path:`/howitworks`,element:<HowItWorks></HowItWorks>}
+      {path:`/howitworks`,element:<HowItWorks></HowItWorks>},
+      {path:"/payment-success",element:<PaymentSuccess></PaymentSuccess>},
+      {path:"/payment-cancel",element:<PaymentCancel></PaymentCancel>}
       
     ]
   },
