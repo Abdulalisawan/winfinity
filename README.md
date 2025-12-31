@@ -1,197 +1,136 @@
-🏆 WinfinityHub – Contest Management Platform
+# 🏆 WinfinityHub – Contest Management Platform
 
 🔗 Live Website: https://winfinityhub.netlify.app/
 
-📌 Project Overview
+---
 
-WinfinityHub is a full-stack contest management platform where users can explore contests, securely participate, submit tasks, and compete to win prizes.
-The platform supports role-based access control with separate dashboards for Admins, Contest Creators, and Users, ensuring a smooth and secure experience.
+## 📌 Project Overview
+
+WinfinityHub is a full-stack contest management platform where users can explore contests, securely participate, submit tasks, and compete to win prizes.  
+The platform supports role-based access control with separate dashboards for Admins, Contest Creators, and Normal Users, ensuring a smooth and secure experience.
 
 This project focuses on real-world application architecture, secure authentication, payment handling, and scalable backend logic.
 
-📸 Project Screenshot
+---
 
-📌 Add a clean screenshot of the homepage or contest listing page
-Name the file screenshot.png and place it in the root folder
+## 📸 Project Screenshot
+
+Add a clean screenshot of the homepage or contest listing page.  
+Save the image as `screenshot.png` in the root directory.
 
 ![WinfinityHub Screenshot](./screenshot.png)
 
-🚀 Key Features
+---
 
-🔐 Secure Authentication
+## 🚀 Key Features
 
-Email/password login and Google authentication using Firebase
+- Secure authentication using Firebase (Email/Password + Google)
+- JWT-based authentication with HTTP-only cookies
+- Role-based access control (Admin, Contest Creator, User)
+- Contest creation, update, and deletion with admin approval
+- Stripe payment integration for contest registration
+- Payment verification before participation
+- Real-time participation tracking and duplicate prevention
+- Task submission system (one submission per user)
+- Winner declaration with automatic stats update
+- User dashboard for participation and winning history
+- Leaderboard showing top users by total wins
+- Search contests by category and popularity
+- Fully responsive UI for mobile, tablet, and desktop devices
 
-JWT authentication with HTTP-only cookies
+---
 
-👥 Role-Based Access Control
+## 🧰 Technologies Used
 
-Admin, Contest Creator, and Normal User roles
+Frontend:
+- React
+- React Router
+- React Query
+- Tailwind CSS
+- DaisyUI
 
-Protected dashboards for each role
+Backend:
+- Node.js
+- Express.js
+- MongoDB
 
-🏗️ Contest Creation & Management
+Authentication & Security:
+- Firebase Authentication
+- JSON Web Token (JWT)
+- HTTP-only cookies
 
-Contest creators can create, update, and delete contests
+Payments:
+- Stripe
 
-Admin approval required before contests go live
+---
 
-💳 Stripe Payment Integration
+## 📦 Main Dependencies
 
-Secure contest registration via Stripe
+- react
+- react-router-dom
+- @tanstack/react-query
+- firebase
+- axios
+- stripe
+- express
+- mongodb
+- jsonwebtoken
 
-Payment verification before participation
+---
 
-🧾 Participation Tracking
+## ⚙️ How to Run the Project Locally
 
-Prevents duplicate contest registration
+Step 1: Clone the repository  
+git clone https://github.com/your-username/winfinityhub.git  
+cd winfinityhub  
 
-Tracks participant count in real time
+Step 2: Install dependencies  
+npm install  
 
-📝 Task Submission System
+Step 3: Environment variables  
+Create a .env file in the root directory and add the following:
 
-Paid users can submit contest tasks
+VITE_FIREBASE_API_KEY=your_firebase_api_key  
+VITE_FIREBASE_AUTH_DOMAIN=your_firebase_auth_domain  
+VITE_STRIPE_PUBLIC_KEY=your_stripe_public_key  
+JWT_SECRET=your_jwt_secret  
 
-Prevents multiple submissions per user
+Never commit the .env file to GitHub.
 
-🏆 Winner Declaration
+Step 4: Start the project  
+npm run dev  
 
-Contest creators can declare winners
+The application will run at: http://localhost:5173
 
-Automatically updates winner history and user stats
+---
 
-📊 User Dashboard
+## 🔗 Project Resources
 
-View participated contests and payment history
+Live Website: https://winfinityhub.netlify.app/  
+Frontend Repository: https://github.com/your-username/winfinityhub  
+Backend Repository: https://github.com/your-username/winfinityhub-server  
 
-Track winning contests and achievements
+---
 
-🥇 Leaderboard
+## 🎯 Why This Project Matters
 
-Displays top users ranked by total wins
+- Demonstrates real-world full-stack MERN development
+- Implements secure authentication and payment systems
+- Uses role-based access control
+- Designed with scalability and maintainability in mind
+- Built using modern industry-standard tools
 
-🔍 Search & Discovery
+---
 
-Search contests by category/type
+## 👤 Author
 
-Popular contests sorted by highest participation
+Abdul Ali Sawan  
+Full Stack MERN Developer  
+Dhaka, Bangladesh  
 
-📱 Fully Responsive Design
+Email: dev.abdulalisawan@gmail.com  
+GitHub: https://github.com/Abdulalisawan  
+LinkedIn: https://www.linkedin.com/in/abdul-ali-sawan  
 
-Optimized for mobile, tablet, and desktop
 
-Built with Tailwind CSS and DaisyUI
 
-🧰 Technologies Used
-Frontend
-
-React
-
-React Router
-
-React Query
-
-Tailwind CSS
-
-DaisyUI
-
-Backend
-
-Node.js
-
-Express.js
-
-MongoDB
-
-Authentication & Security
-
-Firebase Authentication
-
-JSON Web Token (JWT)
-
-HTTP-only cookies
-
-Payments
-
-Stripe
-
-📦 Main Dependencies
-
-react
-
-react-router-dom
-
-@tanstack/react-query
-
-firebase
-
-axios
-
-stripe
-
-node
-
-express
-
-mongodb
-
-jsonwebtoken
-
-⚙️ How to Run the Project Locally
-1️⃣ Clone the Repository
-git clone https://github.com/your-username/winfinityhub.git
-cd winfinityhub
-
-2️⃣ Install Dependencies
-npm install
-
-3️⃣ Environment Variables
-
-Create a .env file in the root directory and add:
-
-VITE_FIREBASE_API_KEY=your_firebase_api_key
-VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
-VITE_STRIPE_PUBLIC_KEY=your_stripe_public_key
-JWT_SECRET=your_jwt_secret
-
-
-⚠️ Never commit .env files to GitHub
-
-4️⃣ Start the Project
-npm run dev
-
-
-The application will run at:
-http://localhost:5173
-
-🔗 Project Resources
-
-🌐 Live Website: https://winfinityhub.netlify.app/
-
-💻 Frontend Repository: https://github.com/your-username/winfinityhub
-
-🛠 Backend Repository: https://github.com/your-username/winfinityhub-server
-
-🎯 Why This Project Matters
-
-Demonstrates real-world full-stack development
-
-Implements secure authentication & payments
-
-Uses role-based access control
-
-Focuses on scalable backend logic
-
-Built with modern industry-standard tools
-
-👤 Author
-
-Abdul Ali Sawan
-Full Stack MERN Developer
-📍 Dhaka, Bangladesh
-
-📧 Email: dev.abdulalisawan@gmail.com
-
-🔗 GitHub: https://github.com/Abdulalisawan
-
-🔗 LinkedIn: https://www.linkedin.com/in/abdul-ali-sawan
