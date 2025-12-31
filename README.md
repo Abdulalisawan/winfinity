@@ -18,7 +18,7 @@ This project focuses on real-world application architecture, secure authenticati
 Add a clean screenshot of the homepage or contest listing page.  
 Save the image as `screenshot.png` in the root directory.
 
-![WinfinityHub Screenshot](./screenshot.png)
+![WinfinityHub Screenshot](./screenshot.jpeg)
 
 ---
 
